@@ -3,7 +3,7 @@ from flask import flash, make_response, redirect, render_template, request, sess
 from flask.ext.login import login_required, login_user, logout_user
 
 from app import app, authomatic, db, login_manager
-from .forms import MyForm
+from .forms import MyForm, WanderingForm
 from .models import User
 
 # =========================================================================
@@ -44,6 +44,11 @@ def social_login(provider_name):
                 # fix oauth inconsistencies
                 if result.provider.name == 'facebook':
                     result.user.picture = result.user.picture.replace('None', result.user.id)
+                    result.user.first_name = result.user.name.split(' ')[0]
+                    try:
+                        result.user.last_name = result.user.name.split(' ')[1]
+                    except:
+                        result.user.last_name = ''
                 elif result.provider.name == 'twitter':
                     result.user.first_name = result.user.name.split(' ')[0]
                     try:
@@ -64,7 +69,7 @@ def social_login(provider_name):
         elif result.error:
             flash(result.error.message, 'danger')
             return redirect(url_for('login'))
-        return redirect(session.pop('next_url', url_for('secret')))
+        return redirect(session.pop('next_url', url_for('index')))
     return response
 
 
@@ -79,16 +84,17 @@ def logout():
 
 @app.route('/', methods=('GET', 'POST'))
 def index():
-    form = MyForm()
-    if form.validate_on_submit():
-        return render_template('index.html', name=form.name.data)
-    return render_template('index.html', form=form)
+    r = request
+    wandering_form = WanderingForm()
+    if wandering_form.validate_on_submit():
+        return render_template('index.html', name=wandering_form.name.data)
+    return render_template('index.html', wandering_form=wandering_form)
 
 
-@app.route('/secret')
-@login_required
-def secret():
-    return render_template('secret.html')
+# @app.route('/secret')
+# @login_required
+# def secret():
+#     return render_template('secret.html')
 
 # =========================================================================
 # Error pages

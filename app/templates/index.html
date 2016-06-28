@@ -1,24 +1,47 @@
 {% extends 'base.html' %}
-{% block title %}TITLE{% endblock %}
+{% block title %}Reclaimer{% endblock %}
 {% block content %}
-    <div class="page-header">
-        <h1>Simple silly flask app</h1>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 wandering">
+        <div class="page-header">
+            <h1>Wandering</h1>
+            <p class="lead">Enter your information below</p>
+            <form class="form-inline" method="POST">
+                {{ wandering_form.csrf_token }}
+                <div class="form-group {% if wandering_form.person_number.errors %}has-error{% endif %}">
+                    {{ wandering_form.person_number.label(class='sr-only') }}
+                    {{ wandering_form.person_number(class='form-control', placeholder=wandering_form.person_number.description) }}
+                    {% for error in wandering_form.person_number.errors %}
+                        <p class="wandering-invalid">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group {% if wandering_form.budget_available.errors %}has-error{% endif %}">
+                    {{ wandering_form.budget_available.label(class='sr-only') }}
+                    {{ wandering_form.budget_available(class='form-control', placeholder=wandering_form.budget_available.description) }}
+                    {% for error in wandering_form.budget_available.errors %}
+                        <p class="wandering-invalid">{{ error }}</p>
+                    {% endfor %}
+                </div>
+                <button type="submit" class="btn btn-primary" style="vertical-align: top;">Wander</button>
+            </form>
+        </div>
     </div>
-    {% if name %}
-        <p class="lead">Hello, {{ name }}! Are you impressed now?</p>
-    {% else %}
-        <p class="lead">Enter your name below and witness the magic</p>
-        <form class="form-inline" method="POST">
-            {{ form.csrf_token }}
-            <div class="form-group {% if form.name.errors %}has-error{% endif %}">
-                {{ form.name.label(class='sr-only') }}
-                {{ form.name(class='form-control', placeholder=form.name.description) }}
-                {% for error in form.name.errors %}
-                    <p class="help-block">{{ error }}</p>
-                {% endfor %}
-            </div>
-            <button type="submit" class="btn btn-primary" style="vertical-align: top;">Amaze me</button>
-        </form>
-    {% endif %}
-    <p style="margin-top: 64px;">Psst, don't forget to check out the <a href="{{ url_for('secret') }}">secret page</a>.</p>
+
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 aware">
+        <div class="page-header">
+            <h1>Wandering</h1>
+            <p class="lead">Enter your name below and witness the magic</p>
+            <form class="form-inline" method="POST">
+                {{ wandering_form.csrf_token }}
+                <div class="form-group {% if wandering_form.person_number.errors %}has-error{% endif %}">
+                    {{ wandering_form.person_number.label(class='sr-only') }}
+                    {{ wandering_form.person_number(class='form-control', placeholder=wandering_form.person_number.description) }}
+                    {% for error in wandering_form.person_number.errors %}
+                        <p class="help-block">{{ error }}</p>
+                    {% endfor %}
+                </div>
+                <button type="submit" class="btn btn-primary" style="vertical-align: top;">Wander</button>
+            </form>
+        </div>
+    </div>
 {% endblock %}
