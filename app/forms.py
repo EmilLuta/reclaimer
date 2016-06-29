@@ -11,7 +11,7 @@ class MyForm(Form):
 class WanderingForm(Form):
     person_number = IntegerField('Persons', description='Number of persons',
                                  validators=[NumberRange(min=1, max=4, message="Insert the number of persons: 1-4")])
-    budget_available = IntegerField('Budget Available', description='Budget available (RON)',
+    budget_available = IntegerField('Budget Available', description='Budget available ($)',
                                     validators=[NumberRange(min=100,
                                                             max=1000000,
-                                                            message="Insert the budget for this trip 100-1000000 RON")])
+                                                            message="Insert the budget for this trip 100-1000000 $")])

@@ -4,7 +4,8 @@ from flask.ext.login import login_required, login_user, logout_user
 
 from app import app, authomatic, db, login_manager
 from .forms import MyForm, WanderingForm
-from .models import User
+from .models import User, HotDeal
+
 
 # =========================================================================
 # Flask-Login
@@ -84,10 +85,12 @@ def logout():
 
 @app.route('/', methods=('GET', 'POST'))
 def index():
-    r = request
     wandering_form = WanderingForm()
     if wandering_form.validate_on_submit():
-        return render_template('index.html', name=wandering_form.name.data)
+        hot_deals = HotDeal.query.filter(HotDeal.ranking < int(wandering_form.budget_available.data) * int(wandering_form.person_number.data)).order_by(HotDeal.ranking.desc()).all()
+        if hot_deals == []:
+            flash('There are no deals for the given data, please try again later.', 'danger')
+        return render_template('index.html', hot_deals=hot_deals, wandering_form=wandering_form, persons=int(wandering_form.person_number.data))
     return render_template('index.html', wandering_form=wandering_form)
 
 

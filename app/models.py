@@ -84,7 +84,7 @@ class DestinationData(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     location_seed_id = db.Column(db.Integer, db.ForeignKey('location_seed.id'), nullable=False)
-    location_seed = db.relationship('LocationSeed', backref=db.backref('location', uselist=True, lazy='select'))
+    location_seed = db.relationship('LocationSeed', backref=db.backref('destinations', uselist=True, lazy='select'))
 
     longitude = db.Column(db.String(128))
     latitude = db.Column(db.String(128))
@@ -95,14 +95,14 @@ class Hotel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     destination_data_id = db.Column(db.Integer, db.ForeignKey('destination_data.id'), nullable=False)
-    destination_data = db.relationship('DestinationData', backref=db.backref('destination', uselist=False, lazy='select'))
+    destination_data = db.relationship('DestinationData', backref=db.backref('hotels', uselist=True, lazy='select'))
 
     price = db.Column(db.String(128))
     name = db.Column(db.String(128))
     address = db.Column(db.String(255))
     review = db.Column(db.Float)
     trip_advisor_review = db.Column(db.Float)
-    site_url = db.column(db.String(255))
+    # site_url = db.Column(db.String(255))
 
     @property
     def city(self):

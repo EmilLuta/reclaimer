@@ -29,8 +29,6 @@ for location_seed in LocationSeed.query.all():
                 location_seed.country_name)
             )
         finally:
-            # import code
-            # code.interact(local=locals())
             try:
                 alert = driver.switch_to.alert
                 alert.dismiss()
