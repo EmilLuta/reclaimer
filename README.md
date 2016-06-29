@@ -1,7 +1,7 @@
 ### Getting your hands dirty ###
 
 * cd to a comfy location
-* git@github.com:EmilLuta/reclaimer.git
+* git clone git@github.com:EmilLuta/reclaimer.git
 * sudo npm install -g less
 * sudo ln -s /usr/bin/nodejs /usr/bin/node  # in case you get "node: command not found" in bash
 * cd reclaimer/
